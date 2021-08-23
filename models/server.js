@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 
-const { db } = require('../database/config');
+const { Esquema } = require('../database/config');
 
 class Server {
 
@@ -9,6 +9,7 @@ class Server {
         this.app  = express();
         this.port = process.env.PORT_NUMBER;
         this.usuariosPath = '/api/usuarios';
+        this.consultasPath = '/api/consultas';
 
         // Conectar a base de datos
         this.dbConnection();
@@ -23,7 +24,7 @@ class Server {
     async dbConnection() 
     {        try {
             
-            await db.authenticate();
+            await Esquema.authenticate();
             console.log('Database online');
 
         } 
@@ -51,6 +52,8 @@ class Server {
 
     routes() {
         this.app.use( this.usuariosPath, require('../routes/usuarios'));
+        this.app.use( this.consultasPath, require('../routes/consultas'));
+        
     }
 
     listen() {
