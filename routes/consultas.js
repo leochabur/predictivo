@@ -3,7 +3,7 @@ const { check } = require('express-validator');
 
 const { validarCampos } = require('../middlewares/validar-campos');
 
-const { clientesGet, ordenesGet } = require('../controllers/consultas');
+const { clientesGet, ordenesGet, ordenesNowGet } = require('../controllers/consultas');
 
 const router = Router();
 
@@ -17,5 +17,7 @@ router.get('/ordenes/:stamp',
             ], 
             validarCampos,
             ordenesGet );
+
+router.get('/ordenesnow', ordenesNowGet );
 
 module.exports = router;

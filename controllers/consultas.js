@@ -8,6 +8,7 @@ const { ClaseServicio } = require('../models/trafico/claseServicio');
 const { Cronograma } = require('../models/trafico/cronograma');
 const { Orden } = require('../models/trafico/orden');
 const { Servicio } = require('../models/trafico/servicio');
+const { Esquema } = require('../database/config');
 
 const clientesGet = async(req = request, res = response) => {
 
@@ -40,7 +41,17 @@ const ordenesGet = async(req = request, res = response) => {
               });
 }
 
+const ordenesNowGet = async(req = request, res = response) => {
+  
+    const fecha = new Date();
+    var day = moment(fecha);
+
+    const ordenes = await Esquema.query("SELECT nombre FROM ordenes WHERE '"+day.format('YYYY-MM-DD hh:mm:ss')+"' BETWEEN CONCAT(fservicio,' ', hcitacion) AND CONCAT(fservicio,' ', hllegada) AND borrada = 0 AND vacio = 0 AND id_estructura = 1");
+    console.log(ordenes);
+}
+
 module.exports = {
     clientesGet,
-    ordenesGet
+    ordenesGet,
+    ordenesNowGet 
 }
