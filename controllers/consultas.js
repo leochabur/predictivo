@@ -48,9 +48,9 @@ const ordenesNowGet = async(req = request, res = response) => {
     const fecha = new Date();
     var day = moment(fecha);
 
-    const ordenes = await Esquema.query("SELECT nombre, id, hcitacion, hllegada FROM ordenes WHERE '"+day.format('YYYY-MM-DD hh:mm:ss')+"' BETWEEN CONCAT(fservicio,' ', hcitacion) AND CONCAT(fservicio,' ', hllegada) AND id_cliente = "+cliente+" AND vacio = 0 AND borrada = 0 AND id_estructura = 1", {type: Sequelize.QueryTypes.SELECT});
+    const ordenes = await Esquema.query("SELECT nombre, id, hcitacion, hllegada FROM ordenes WHERE '"+day.format('YYYY-MM-DD hh:mm:ss')+"' BETWEEN CONCAT(fservicio,' ', hcitacion) AND CONCAT(fservicio,' ', hllegada) AND id_cliente = "+cliente+" AND vacio = 0 AND borrada = 0 AND id_estructura = 1 ORDER BY nombre", {type: Sequelize.QueryTypes.SELECT});
     res.json(ordenes);
-    console.log(ordenes);
+    console.log('Consulta exitosa');
 }
 
 module.exports = {
