@@ -52,7 +52,7 @@ const ordenesNowGet = async(req = request, res = response) => {
                                         "FROM ordenes ord "+
                                         "JOIN ciudades o on ord.id_ciudad_origen = o.id "+
                                         "JOIN ciudades d on d.id = ord.id_ciudad_destino "+
-                                        "JOIN servicios s ON s.id = ord.id "+
+                                        "JOIN servicios s ON s.id = ord.id_servicio "+
                                         "JOIN unidades u ON u.id = ord.id_micro "+
                                         "WHERE i_v = 'i' AND '"+day.format('YYYY-MM-DD hh:mm:ss')+"' BETWEEN CONCAT(fservicio,' ', ord.hcitacion) AND CONCAT(fservicio,' ', ord.hllegada) AND id_cliente = "+cliente+" AND vacio = 0 AND borrada = 0 AND ord.id_estructura = 1 ORDER BY nombre", {type: Sequelize.QueryTypes.SELECT});
     res.json(ordenes);
