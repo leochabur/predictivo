@@ -9,6 +9,7 @@ const { Cronograma } = require('../models/trafico/cronograma');
 const { Orden } = require('../models/trafico/orden');
 const { Servicio } = require('../models/trafico/servicio');
 const { Esquema } = require('../database/config');
+const Sequelize =  require('sequelize');
 
 const clientesGet = async(req = request, res = response) => {
 
@@ -43,10 +44,12 @@ const ordenesGet = async(req = request, res = response) => {
 
 const ordenesNowGet = async(req = request, res = response) => {
   
+    const { cliente } = req.params;
     const fecha = new Date();
     var day = moment(fecha);
 
-    const ordenes = await Esquema.query("SELECT nombre FROM ordenes WHERE '"+day.format('YYYY-MM-DD hh:mm:ss')+"' BETWEEN CONCAT(fservicio,' ', hcitacion) AND CONCAT(fservicio,' ', hllegada) AND borrada = 0 AND vacio = 0 AND id_estructura = 1");
+    const ordenes = await Esquema.query("SELECT nombre, id, hcitacion, hllegada FROM ordenes WHERE '"+day.format('YYYY-MM-DD hh:mm:ss')+"' BETWEEN CONCAT(fservicio,' ', hcitacion) AND CONCAT(fservicio,' ', hllegada) AND id_cliente = "+cliente+" AND vacio = 0 AND borrada = 0 AND id_estructura = 1", {type: Sequelize.QueryTypes.SELECT});
+    res.json(ordenes);
     console.log(ordenes);
 }
 

@@ -18,6 +18,12 @@ router.get('/ordenes/:stamp',
             validarCampos,
             ordenesGet );
 
-router.get('/ordenesnow', ordenesNowGet );
+router.get('/ordenesnow/:cliente', 
+            [
+            check('cliente', 'La cliente es obligatorio').not().isEmpty(),
+            check('cliente', 'El campo cliente debe ser numerico').isNumeric()
+            ], 
+            validarCampos, 
+            ordenesNowGet );
 
 module.exports = router;
