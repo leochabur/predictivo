@@ -1,4 +1,5 @@
 const { response, request } = require('express');
+const soap = require('soap')
 const  moment  = require('moment');
 
 const { Ciudad } = require('../models/ciudad');
@@ -59,8 +60,36 @@ const ordenesNowGet = async(req = request, res = response) => {
     console.log(ordenes);
 }
 
+const positionGet = async(req = request, res = response) => {
+
+    const { interno } = req.params;
+    var url = 'https://app.urbetrack.com/App_services/Operation.asmx?wsdl';
+    var args = {usuario: 'masterbus_trafico', hash: '85CF3EC9C355539B74F36AB7D03BBC1C', interno};
+
+    soap.createClient(url, function(err, client) {
+        client.ApiGetLocationByVehicle(args, function(err, result) {
+            if (err)
+            {
+                res.status(501, 'Error interno')
+            }
+            else
+            {
+                res.json(result)
+            }
+        });
+    });
+
+    /*soap.createClientAsync(url).then((client) => {
+        return client.ApiGetLocationByVehicle(args);
+      }).then((result) => {
+        console.log(result);
+      });*/
+    //res.json(interno);
+}
+
 module.exports = {
     clientesGet,
     ordenesGet,
-    ordenesNowGet 
+    ordenesNowGet,
+    positionGet
 }

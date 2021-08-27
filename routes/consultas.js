@@ -3,7 +3,7 @@ const { check } = require('express-validator');
 
 const { validarCampos } = require('../middlewares/validar-campos');
 
-const { clientesGet, ordenesGet, ordenesNowGet } = require('../controllers/consultas');
+const { clientesGet, ordenesGet, ordenesNowGet, positionGet } = require('../controllers/consultas');
 
 const router = Router();
 
@@ -25,5 +25,13 @@ router.get('/ordenesnow/:cliente',
             ], 
             validarCampos, 
             ordenesNowGet );
+
+router.get('/position/:interno', 
+            [
+            check('interno', 'El interno es obligatorio').not().isEmpty(),
+            check('interno', 'El campo interno debe ser numerico').isNumeric()
+            ], 
+            validarCampos, 
+            positionGet );
 
 module.exports = router;
