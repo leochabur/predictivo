@@ -91,17 +91,32 @@ const positionGet = async(req = request, res = response) => {
 const distanciePosition = async(req = request, res = response) => {
 
     const { latuser, longuserm, latinterno, longinterno } = req.body;
-    console.log(req.body)
+   
 
     var config = {
         method: 'get',
-        url: 'https://maps.googleapis.com/maps/api/distancematrix/json?origins='+latuser+','+longuserm+'&destinations='+latinterno+','+longinterno+'&key=AIzaSyBMWxzUoadM_CcbqLBeqGp2xMYfSjyMJ-M',
+        url: 'https://maps.googleapis.com/maps/api/distancematrix/json?origins='+latuser+','+longuserm+'&destinations='+latinterno+','+longinterno+'&language=es&key=AIzaSyBMWxzUoadM_CcbqLBeqGp2xMYfSjyMJ-M',
         headers: { crossdomain: true }
       };
       
       axios(config)
-      .then((response) => {
-        console.log(response.data.rows);
+      .then(({data}) => {
+        if (data.status)
+        {
+            return { address: data.origin_addresses[0], rows : data.rows };
+        }
+        return res.json({ ok : false, message : 'Error al realizar la busqueda!'})
+      })
+      .then((data) => {
+          const { address, rows } = data
+          const { elements } = rows[0]
+          const { status, distance, duration } = elements[0]
+          if (status == 'ZERO_RESULTS')
+          {
+            return res.json({ ok : false, message : 'No se han encontrado resultados'})
+          }
+          
+          res.json({address, distancia: distance.text, tiempo : duration.text})
       })
       .catch(function (error) {
         console.log(error);

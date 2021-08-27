@@ -1,28 +1,32 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
+import Spinner from './spinner';
+import Location from './locatios';
 
 const Service = (props) => {
     const {id, nombre, hcitacion, hsalida, hllegada, origen, interno} = props.servicio
 
     const [ posUser, setPosUser] = useState({})
     const [ posInterno, setPosInterno] = useState({})
-    const [ state, setState] = useState(false)
+
+    const [ loading, setLoading ] = useState(false)
+
+    const [ distance, setDistance] = useState(null)
 
     const getLocation = async () => {
-
+                                    setLoading(true)
                                     if (!navigator.geolocation) 
                                     {
-                                        setState(false);
+                                        setLoading(true)
                                     } 
                                     else 
                                     {
-                                        setState(true);
-                                        navigator.geolocation.getCurrentPosition(({ coords }) => {
-                                                                                                        setState(false);
+                                     
+                                        navigator.geolocation.getCurrentPosition(({ coords }) => {                                                                                                        
                                                                                                         setPosUser({ lat :coords.latitude, lon : coords.longitude });  
                                                                                                  }, 
                                                                                                  () => {
-                                                                                                        setState(false);
+                                                                                                        
                                                                                                  });
                                         const { data }  = await axios('http://dev-masterbus.tech:8000/api/consultas/position/'+interno);
                                         const { ApiGetLocationByVehicleResult } = data;
@@ -30,8 +34,7 @@ const Service = (props) => {
                                         {
                                             const { Resultado } = ApiGetLocationByVehicleResult
                                             setPosInterno({ lat : Resultado.Latitud, lon : Resultado.Longitud })
-                                            distancia()
-                                            
+                                            distancia()                                            
                                         }
                                         else
                                         {
@@ -46,22 +49,16 @@ const Service = (props) => {
 
     }, [props])
 
-    const distancia = () => {
-        console.log('interno ',posInterno)
-        console.log('usuario ',posUser)
-        var config = {
-            method: 'get',
-            url: 'https://maps.googleapis.com/maps/api/distancematrix/json?origins='+posInterno.lat+','+posInterno.lon+'&destinations='+posUser.lat+','+posUser.lon+'&key=AIzaSyDv8b-qrzRkI9kvtJV6l3Lko-mCdrGh7oE',
-            headers: { crossdomain: true }
-          };
-          
-          axios(config)
-          .then(function (response) {
-            console.log(JSON.stringify(response.data));
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
+    const distancia = async () => {
+        setLoading(false)
+        const distance = await axios.post('http://localhost:8000/api/consultas/distance',
+                                         {
+                                            latuser : posUser.lat,
+                                            longuserm : posUser.lon, 
+                                            latinterno : posInterno.lat, 
+                                            longinterno : posInterno.lon
+                                         });
+        setDistance(distance)
     }
 
     return (
@@ -71,9 +68,15 @@ const Service = (props) => {
                         <div className="card-body">
                             <p>Salio de: <span className="h5">{ origen }</span> a las: <span className="h5">{ hcitacion }</span></p>
                             <p>Interno: <span className="h5">{ interno } </span></p>
-                            <a href="#" className="btn btn-primary">Go somewhere</a>
                         </div>
                     </div>
+                    {
+                        loading 
+                                ? <Spinner/>
+                                : <Location interno={interno} distance={distance} />
+                                  
+                    }
+                    
                 </>
             );
 }
