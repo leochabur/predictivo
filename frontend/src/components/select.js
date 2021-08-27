@@ -7,7 +7,7 @@ import Service from './service';
 function SelectServicios() {
 
     const [ servicios, setServicios] = useState([]);
-    const [serv, setServ] = useState([]);
+    const [serv, setServ] = useState(null);
 
     const recuperarServicios = async () => {
         const { data } = await axios('http://dev-masterbus.tech:8000/api/consultas/ordenesnow/13');
