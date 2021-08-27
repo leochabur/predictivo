@@ -3,7 +3,7 @@ const { check } = require('express-validator');
 
 const { validarCampos } = require('../middlewares/validar-campos');
 
-const { clientesGet, ordenesGet, ordenesNowGet, positionGet } = require('../controllers/consultas');
+const { clientesGet, ordenesGet, ordenesNowGet, positionGet, distanciePosition } = require('../controllers/consultas');
 
 const router = Router();
 
@@ -33,5 +33,8 @@ router.get('/position/:interno',
             ], 
             validarCampos, 
             positionGet );
+
+router.post('/distance',
+            distanciePosition );
 
 module.exports = router;

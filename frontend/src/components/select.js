@@ -10,7 +10,7 @@ function SelectServicios() {
     const [serv, setServ] = useState(null);
 
     const recuperarServicios = async () => {
-        const { data } = await axios('http://dev-masterbus.tech:8000/api/consultas/ordenesnow/10');
+        const { data } = await axios('http://dev-masterbus.tech:8000/api/consultas/ordenesnow/13');
         setServicios(data)
         
     }

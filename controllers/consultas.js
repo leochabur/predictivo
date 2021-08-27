@@ -1,6 +1,7 @@
 const { response, request } = require('express');
 const soap = require('soap')
 const  moment  = require('moment');
+const axios = require('axios')
 
 const { Ciudad } = require('../models/ciudad');
 const { Cliente } = require('../models/cliente');
@@ -87,9 +88,30 @@ const positionGet = async(req = request, res = response) => {
     //res.json(interno);
 }
 
+const distanciePosition = async(req = request, res = response) => {
+
+    const { latuser, longuserm, latinterno, longinterno } = req.body;
+    console.log(req.body)
+
+    var config = {
+        method: 'get',
+        url: 'https://maps.googleapis.com/maps/api/distancematrix/json?origins='+latuser+','+longuserm+'&destinations='+latinterno+','+longinterno+'&key=AIzaSyBMWxzUoadM_CcbqLBeqGp2xMYfSjyMJ-M',
+        headers: { crossdomain: true }
+      };
+      
+      axios(config)
+      .then((response) => {
+        console.log(response.data.rows);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+}
+
 module.exports = {
     clientesGet,
     ordenesGet,
     ordenesNowGet,
-    positionGet
+    positionGet,
+    distanciePosition
 }
