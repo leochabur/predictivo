@@ -51,7 +51,7 @@ const ordenesNowGet = async(req = request, res = response) => {
     var day = moment(fecha);
   
     day.subtract(3, 'hours'); 
-    const ordenes = await Esquema.query("SELECT nombre, ord.id, hllegadaplantareal as hllegada, hsalidaplantareal as hsalida, hfinservicioreal as hfinalizacion, hcitacionreal as hcitacion, interno, o.ciudad as origen, d.ciudad as destino "+ 
+    const ordenes = await Esquema.query("SELECT now() as ahora, nombre, ord.id, hllegadaplantareal as hllegada, hsalidaplantareal as hsalida, hfinservicioreal as hfinalizacion, hcitacionreal as hcitacion, interno, o.ciudad as origen, d.ciudad as destino "+ 
                                         "FROM ordenes ord "+
                                         "JOIN ciudades o on ord.id_ciudad_origen = o.id "+
                                         "JOIN ciudades d on d.id = ord.id_ciudad_destino "+

@@ -6,7 +6,18 @@ const Esquema = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.
     dialect: 'mysql',
     define: {
         timestamps: false
-    }
+    },
+    dialectOptions: {
+        useUTC: false, //for reading from database
+        dateStrings: true,
+        typeCast: function (field, next) { // for reading from database
+          if (field.type === 'DATETIME') {
+            return field.string()
+          }
+            return next()
+          },
+      },
+      timezone: '-03:00'
 });
 
 
