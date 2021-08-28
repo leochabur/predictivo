@@ -49,7 +49,8 @@ const ordenesNowGet = async(req = request, res = response) => {
     const { cliente } = req.params;
     const fecha = new Date();
     var day = moment(fecha);
-
+  
+    day.subtract(3, 'hours'); 
     const ordenes = await Esquema.query("SELECT nombre, ord.id, hllegadaplantareal as hllegada, hsalidaplantareal as hsalida, hfinservicioreal as hfinalizacion, hcitacionreal as hcitacion, interno, o.ciudad as origen, d.ciudad as destino "+ 
                                         "FROM ordenes ord "+
                                         "JOIN ciudades o on ord.id_ciudad_origen = o.id "+
