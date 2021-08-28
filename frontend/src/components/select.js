@@ -1,42 +1,45 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import Service from './service';
-import Spinner from './spinner';
 
 
 
-function SelectServicios() {
+function SelectServicios( props) {
 
-    const [ servicios, setServicios] = useState([]);
+    const { servs } = props;
+
     const [serv, setServ] = useState(null);
 
-    const recuperarServicios = async () => {
-        const { data } = await axios('http://dev-masterbus.tech:8000/api/consultas/ordenesnow/13');
-        setServicios(data)
-        
+    const [ posUser, setPosUser] = useState({});
+
+
+
+    const getLocation = async () => {
+
+        const { data } = await axios.get('https://get.geojs.io/v1/ip/geo.json');
+        setPosUser({ lat :data.latitude, lon : data.longitude });             
+                               
     }
 
     useEffect(() => {
-        recuperarServicios()
+        getLocation();
     }, []);
 
 
     const handleChange = ({ target }) => {
-            const s = servicios.find(element => element.id == target.value);
+            const s = servs.find(element => element.id == target.value);
             setServ(s)
     }
-    
-    console.log(servicios)
     
 
     return (
             <>
                 <div className="row mt-5">
-                    <div className="col-lg-6">
+                    <div className="col-lg-6 col-sm-12">
                         <select className="form-control form-select" onChange={ handleChange }>
                             <option key='0' value='0'>Seleccione un servicio</option>
                             { 
-                                servicios.map((srv) => {
+                                servs.map((srv) => {
                                                             return <option key={ srv.id } value={ srv.id }>{ srv.nombre.toUpperCase() }</option>
                                                         }) 
                             }
@@ -46,12 +49,12 @@ function SelectServicios() {
                     </div>
                 </div>
                 <div className="row mt-5">
-                    <div className="col-lg-6">                     
+                    <div className="col-lg-6 col-sm-12">                     
                             {   
                                 serv ?
-                                        <Service servicio={ serv }/>
+                                        <Service servicio={ serv } position={ posUser }/>
                                         :
-                                        ''
+                                        <h5>Seleccione un servicio</h5>
 
                             }                            
                     </div>

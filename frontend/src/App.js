@@ -1,13 +1,20 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import SelectServicios from './components/select';
+import Precarga from './components/precarga';
 
-import Container from 'react-bootstrap/Container';;
+import Container from 'react-bootstrap/Container';
+;
 
 function App() {
   return (
     <Container>
-      <SelectServicios/>
+      <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href="#">
+                  <img src="./masterbus-log.png"  alt=""/>
+        </a>
+        <label>Sistema de arribo predictivo</label>
+      </nav>
+      <Precarga/>
     </Container>
           
   );
