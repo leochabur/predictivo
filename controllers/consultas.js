@@ -57,7 +57,7 @@ const ordenesNowGet = async(req = request, res = response) => {
                                         "JOIN ciudades d on d.id = ord.id_ciudad_destino "+
                                         "JOIN servicios s ON s.id = ord.id_servicio "+
                                         "JOIN unidades u ON u.id = ord.id_micro "+
-                                        "WHERE i_v = 'i' AND NOW() BETWEEN DATE_SUB(CONCAT(fservicio,' ', ord.hcitacionreal), INTERVAL 30 MINUTE) AND DATE_ADD(CONCAT(fservicio,' ', ord.hllegadaplantareal), INTERVAL 30 MINUTE) AND id_cliente = "+cliente+" AND vacio = 0 AND borrada = 0 AND ord.id_estructura = 1 ORDER BY nombre", {type: Sequelize.QueryTypes.SELECT});
+                                        "WHERE i_v = 'i' AND NOW() BETWEEN DATE_SUB(CONCAT(fservicio,' ', ord.hcitacionreal), INTERVAL 60 MINUTE) AND DATE_ADD(CONCAT(fservicio,' ', ord.hllegadaplantareal), INTERVAL 60 MINUTE) AND id_cliente = "+cliente+" AND vacio = 0 AND borrada = 0 AND ord.id_estructura = 1 ORDER BY nombre", {type: Sequelize.QueryTypes.SELECT});
     res.json(ordenes);
     console.log(ordenes);
 }
