@@ -51,17 +51,18 @@ const ordenesNowGet = async(req = request, res = response) => {
     var day = moment(fecha);
   
     day.subtract(3, 'hours'); 
-    const ordenes = await Esquema.query("SELECT now() as ahora, nombre, ord.id, hllegadaplantareal as hllegada, hsalidaplantareal as hsalida, hfinservicioreal as hfinalizacion, "+
-                                                "hcitacionreal as hcitacion, interno, o.ciudad as origen, d.ciudad as destino "+
-                                        "FROM (SELECT hcitacionreal, vacio, borrada, id_ciudad_origen, id_ciudad_destino, id_servicio, id_micro, nombre, id, hllegadaplantareal , hsalidaplantareal, hfinservicioreal, id_estructura, id_cliente, fservicio "+
+    const ordenes = await Esquema.query("SELECT now() as ahora, ord.nombre as nombre, ord.id, hllegadaplantareal as hllegada, hsalidaplantareal as hsalida, hfinservicioreal as hfinalizacion, "+
+                                                "CONCAT(apellido,', ', emp.nombre) as conductor, hcitacionreal as hcitacion, interno, o.ciudad as origen, d.ciudad as destino "+
+                                        "FROM (SELECT id_chofer_1, hcitacionreal, vacio, borrada, id_ciudad_origen, id_ciudad_destino, id_servicio, id_micro, nombre, id, hllegadaplantareal , hsalidaplantareal, hfinservicioreal, id_estructura, id_cliente, fservicio "+
                                                "FROM ordenes "+
                                                "WHERE id_estructura = 1 and not borrada and fservicio between DATE_SUB(DATE(NOW()), INTERVAL 1 DAY) AND DATE_ADD(DATE(NOW()), INTERVAL 1 DAY) "+
                                                ") ord "+
                                         "JOIN ciudades o on ord.id_ciudad_origen = o.id "+
                                         "JOIN ciudades d on d.id = ord.id_ciudad_destino "+
+                                        "LEFT JOIN empleados emp ON emp.id_empleado = ord.id_chofer_1 "+
                                         "JOIN (SELECT i_v, id from servicios where id_estructura = 1) s ON s.id = ord.id_servicio "+
                                         "JOIN unidades u ON u.id = ord.id_micro "+
-                                        "WHERE i_v = 'i' AND NOW() BETWEEN DATE_SUB(CONCAT(fservicio,' ', ord.hcitacionreal), INTERVAL 30 MINUTE) AND DATE_ADD(CONCAT(fservicio,' ', ord.hllegadaplantareal), INTERVAL 30 MINUTE) "+
+                                        "WHERE i_v = 'i' AND NOW() BETWEEN DATE_SUB(CONCAT(fservicio,' ', ord.hsalidaplantareal), INTERVAL 150 MINUTE) AND DATE_ADD(CONCAT(fservicio,' ', ord.hsalidaplantareal), INTERVAL 150 MINUTE) "+
                                         "AND id_cliente = "+cliente+" AND vacio = 0 AND borrada = 0 AND ord.id_estructura = 1 ORDER BY nombre", {type: Sequelize.QueryTypes.SELECT});
     res.json(ordenes);
     console.log(ordenes);
@@ -85,13 +86,6 @@ const positionGet = async(req = request, res = response) => {
             }
         });
     });
-
-    /*soap.createClientAsync(url).then((client) => {
-        return client.ApiGetLocationByVehicle(args);
-      }).then((result) => {
-        console.log(result);
-      });*/
-    //res.json(interno);
 }
 
 const distanciePosition = async(req = request, res = response) => {

@@ -7,11 +7,6 @@ const Location = (props) => {
                     <p>Ubicacion actual: <span className="h6">{distance.data.address}</span></p>
                     <p>Ditancia hasta aqui: <span className="h6">{distance.data.distancia}</span></p>
                     <p>Tiempo hasta aqui: <span className="h6">{distance.data.tiempo}</span></p>
-                    <p>
-                    <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                            Ver en el mapa...
-                    </button>
-                    </p>
                 </div>
 
                 

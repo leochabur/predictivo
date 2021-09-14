@@ -61,7 +61,7 @@ const Service = (props) => {
                     </div>
                     {
                         loading 
-                                ? <Spinner/>
+                                ? <Spinner mensaje='Calculando distancia....por favor aguarde.'/>
                                 : 
                                     distance 
                                             ? <Location interno={interno} distance={distance} />
