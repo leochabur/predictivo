@@ -5,7 +5,7 @@ import Location from './locatios';
 
 const Service = (props) => {
 
-    const {id, nombre, hcitacion, hsalida, hllegada, origen, interno} = props.servicio
+    const {id, nombre, hcitacion, conductor, hsalida, hllegada, origen, interno} = props.servicio
 
     const posUserlat = props.position.lat
 
@@ -57,6 +57,7 @@ const Service = (props) => {
                         <div className="card-body">
                             <p>Salio de: <span className="h5">{ origen }</span> a las: <span className="h5">{ hcitacion }</span></p>
                             <p>Interno: <span className="h5">{ interno } </span></p>
+                            <p>Conductor: <span className="h5">{ conductor } </span></p>
                         </div>
                     </div>
                     {
