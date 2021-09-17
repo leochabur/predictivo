@@ -1,11 +1,14 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+import React, { useEffect, useState } from 'react';
+
 import Precarga from './components/precarga';
 
 import Container from 'react-bootstrap/Container';
-;
+
 
 function App() {
+  
   return (
     <Container>
       <nav class="navbar navbar-light bg-light">
