@@ -3,7 +3,7 @@ const { check } = require('express-validator');
 
 const { validarCampos } = require('../middlewares/validar-campos');
 
-const { clientesGet, ordenesGet, ordenesNowGet, positionGet, distanciePosition } = require('../controllers/consultas');
+const { clientesGet, ordenesGet, ordenesNowGet, positionGet, distanciePosition, ordenesAllNow } = require('../controllers/consultas');
 
 const router = Router();
 
@@ -25,6 +25,8 @@ router.get('/ordenesnow/:cliente',
             ], 
             validarCampos, 
             ordenesNowGet );
+
+router.get('/ordenesall', ordenesAllNow );
 
 router.get('/position/:interno', 
             [
