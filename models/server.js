@@ -28,7 +28,7 @@ class Server {
                             cert: fs.readFileSync("/etc/letsencrypt/live/dev-masterbus.tech/fullchain.pem")
                         };
 
-        const httpsServer = https.createServer(this.options, this.app);
+        this.httpsServer = https.createServer(this.options, this.app);
     }
 
     async dbConnection() 
