@@ -50,12 +50,16 @@ function SelectServicios( props) {
             setServ(s)
     }
     
-
+    const styleObj = {
+      fontSize: 12,
+      color: "grey",
+      paddingTop: "5px",
+  }
     return (
             <>
                 <div className="row mt-5">
                     <div className="col-lg-6 col-sm-12">
-                        <select className="form-control form-select" onChange={ handleChange }>
+                        <select className="form-control form-select" style={styleObj} onChange={ handleChange }>
                             <option key='0' value='0'>Seleccione un servicio</option>
                             { 
                                 servs.map((srv) => {

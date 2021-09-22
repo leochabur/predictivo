@@ -38,7 +38,7 @@ const Service = (props) => {
 
 
     const distancia = async (lat, long) => {
-        console.log('Posicion Interno ', lat, '   ', long, '  Mi Posicion ', posUserlat,' ', posUserlon)
+       // console.log('Posicion Interno ', lat, '   ', long, '  Mi Posicion ', posUserlat,' ', posUserlon)
         const distance = await axios.post('https://dev-masterbus.tech:8000/api/consultas/distance',
                                          {
                                             latinterno : posUserlat, 
