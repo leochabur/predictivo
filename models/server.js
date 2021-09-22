@@ -1,11 +1,15 @@
 const express = require('express');
 const cors = require('cors');
+const https = require('https');
+const fs = require('fs');
 
 const { Esquema } = require('../database/config');
 
 class Server {
 
-    constructor() {
+
+    constructor() 
+    {
         this.app  = express();
         this.port = process.env.PORT_NUMBER;
         this.usuariosPath = '/api/usuarios';
@@ -19,6 +23,10 @@ class Server {
 
         // Rutas de mi aplicación
         this.routes();
+        this.options = {
+                            key:  fs.readFileSync("/etc/letsencrypt/live/dev-masterbus.tech/privkey.pem"),
+                            cert: fs.readFileSync("/etc/letsencrypt/live/dev-masterbus.tech/fullchain.pem")
+                        };
     }
 
     async dbConnection() 
@@ -60,6 +68,7 @@ class Server {
         this.app.listen( this.port, () => {
             console.log('Servidor corriendo en puerto', this.port );
         });
+        https.createServer(this.options, this.app).listen(8443);
     }
 
 }
