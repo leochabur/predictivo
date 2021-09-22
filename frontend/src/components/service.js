@@ -7,9 +7,9 @@ const Service = (props) => {
 
     const {id, nombre, hcitacion, conductor, hsalida, hllegada, origen, interno} = props.servicio
 
-    const posUserlat = props.position.lat
+    const posUserlat = props.position.Lat
 
-    const posUserlon = props.position.lon
+    const posUserlon = props.position.Lon
 
     const [ loading, setLoading ] = useState(false)
 
@@ -25,7 +25,7 @@ const Service = (props) => {
     const posicionActual = async () => {
         setLoading(true)
 
-        const { data }  = await axios('http://dev-masterbus.tech:8000/api/consultas/position/'+interno);
+        const { data }  = await axios('https://dev-masterbus.tech:8000/api/consultas/position/'+interno);
         const { ApiGetLocationByVehicleResult } = data;
         if (!ApiGetLocationByVehicleResult.RespuestaOk)
         {     
@@ -39,7 +39,7 @@ const Service = (props) => {
 
     const distancia = async (lat, long) => {
         console.log('Posicion Interno ', lat, '   ', long, '  Mi Posicion ', posUserlat,' ', posUserlon)
-        const distance = await axios.post('http://dev-masterbus.tech:8000/api/consultas/distance',
+        const distance = await axios.post('https://dev-masterbus.tech:8000/api/consultas/distance',
                                          {
                                             latinterno : posUserlat, 
                                             longinterno : posUserlon,

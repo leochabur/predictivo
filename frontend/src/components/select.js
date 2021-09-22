@@ -12,12 +12,31 @@ function SelectServicios( props) {
 
     const [ posUser, setPosUser] = useState({});
 
+    const [status, setStatus] = useState({});
+
 
 
     const getLocation = async () => {
-
-        const { data } = await axios.get('https://get.geojs.io/v1/ip/geo.json');
-        setPosUser({ lat :data.latitude, lon : data.longitude });             
+        if (!navigator.geolocation) 
+        {
+          setStatus({ ok : false, message : 'Geolocation no soportada por su navegador'});
+        } 
+        else 
+        {
+          navigator.geolocation.getCurrentPosition((position) => {
+              console.log('mi posicion actual ',position);
+            setStatus({ ok : true, message : '' });
+            setPosUser({Lat: position.coords.latitude, Lon :position.coords.longitude});
+            if (!(position.coords.latitude && position.coords.longitude))
+            {
+                setStatus({ ok : false, message : 'No se pudo recuperar su ubicacion' });
+            }
+          }, () => {
+            setStatus({ ok : false, message : 'No se pudo recibir su uicacion' });
+          });
+        }
+        //const { data } = await axios.get('https://get.geojs.io/v1/ip/geo.json');
+      //  setPosUser({ lat :data.latitude, lon : data.longitude });             
                                
     }
 

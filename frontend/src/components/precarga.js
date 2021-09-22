@@ -9,7 +9,7 @@ const Precarga = () => {
     const [loading, setLoading] = useState(true);  
 
     const recuperarServicios = async () => {
-        const { data } = await axios('http://dev-masterbus.tech:8000/api/consultas/ordenesnow/10');
+        const { data } = await axios('https://dev-masterbus.tech:8000/api/consultas/ordenesnow/10');
         setServicios(data);
         setLoading(false);
     }
