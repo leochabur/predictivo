@@ -60,7 +60,7 @@ function SelectServicios( props) {
                 <div className="row mt-5">
                     <div className="col-lg-6 col-sm-12">
                         <select className="form-control form-select" style={styleObj} onChange={ handleChange }>
-                            <option key='0' value='0'>Seleccione un servicio</option>
+                            <option key='0' value='0'>Seleccione un servicio...</option>
                             { 
                                 servs.map((srv) => {
                                                             return <option key={ srv.id } value={ srv.id }>{ srv.nombre.toUpperCase() }</option>

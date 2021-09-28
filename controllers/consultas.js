@@ -62,7 +62,7 @@ const ordenesNowGet = async(req = request, res = response) => {
                                         "LEFT JOIN empleados emp ON emp.id_empleado = ord.id_chofer_1 "+
                                         "JOIN (SELECT i_v, id from servicios where id_estructura = 1) s ON s.id = ord.id_servicio "+
                                         "JOIN unidades u ON u.id = ord.id_micro "+
-                                        "WHERE i_v = 'i' AND NOW() BETWEEN DATE_SUB(CONCAT(fservicio,' ', ord.hsalidaplantareal), INTERVAL 15 MINUTE) AND DATE_ADD(CONCAT(fservicio,' ', ord.hfinservicioreal), INTERVAL 10 MINUTE) "+
+                                        "WHERE i_v = 'i' AND NOW() BETWEEN DATE_SUB(CONCAT(fservicio,' ', ord.hsalidaplantareal), INTERVAL 120 MINUTE) AND DATE_ADD(CONCAT(fservicio,' ', ord.hsalidaplantareal), INTERVAL 120 MINUTE) "+
                                         "AND id_cliente = "+cliente+" AND vacio = 0 AND borrada = 0 AND ord.id_estructura = 1 ORDER BY nombre", {type: Sequelize.QueryTypes.SELECT});
     res.json(ordenes);
     console.log(ordenes);
