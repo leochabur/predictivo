@@ -71,7 +71,7 @@ class Server {
             console.log('Servidor corriendo en puerto', this.port );
         });*/
         this.httpsServer.listen(this.port, () => {
-            console.log('HTTPS Server running on port ', this.port);
+            console.log('HTTPS Server ', this.port);
         });
        // https.createServer(this.options, this.app).listen(8443);
     }

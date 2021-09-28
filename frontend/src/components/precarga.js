@@ -21,7 +21,7 @@ const Precarga = () => {
 
     return (
             <>                
-                <div className="row mt-5">                  
+                <div className="row mt-2">                  
                             {   
                                 loading ?
                                         <Spinner/>

@@ -15,6 +15,7 @@ const Service = (props) => {
 
     const [ distance, setDistance] = useState(null)
 
+    const [result, setResult] = useState(null)
 
 
     useEffect(() => {
@@ -33,12 +34,13 @@ const Service = (props) => {
         }       
 
         const { Resultado } = ApiGetLocationByVehicleResult
+        setResult(Resultado)
         distancia(Resultado.Latitud, Resultado.Longitud)  
     }
 
 
     const distancia = async (lat, long) => {
-       // console.log('Posicion Interno ', lat, '   ', long, '  Mi Posicion ', posUserlat,' ', posUserlon)
+
         const distance = await axios.post('https://dev-masterbus.tech:8000/api/consultas/distance',
                                          {
                                             latinterno : posUserlat, 
@@ -65,7 +67,7 @@ const Service = (props) => {
                                 ? <Spinner mensaje='Calculando distancia....por favor aguarde.'/>
                                 : 
                                     distance 
-                                            ? <Location interno={interno} distance={distance} />
+                                            ? <Location posInt={result} fn={posicionActual} lat={posUserlat} lng={posUserlon} interno={interno} distance={distance} />
                                             : ''
                                   
                     }
