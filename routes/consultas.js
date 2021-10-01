@@ -3,7 +3,15 @@ const { check } = require('express-validator');
 
 const { validarCampos } = require('../middlewares/validar-campos');
 
-const { ordenesNowStructure, clientesGet, ordenesGet, ordenesNowGet, positionGet, distanciePosition, ordenesAllNow } = require('../controllers/consultas');
+const {  getServiciosRondines, 
+         ordenesNowStructure, 
+         clientesGet, 
+         ordenesGet, 
+         ordenesNowGet,
+         positionGet, 
+         distanciePosition, 
+         ordenesAllNow 
+        } = require('../controllers/consultas');
 
 const router = Router();
 
@@ -26,6 +34,15 @@ router.get('/ordenesnow/:cliente',
             validarCampos, 
             ordenesNowGet );
 
+router.get('/rondines/:cliente/:estructura', 
+            [
+            check('cliente', 'La cliente es obligatorio').not().isEmpty(),
+            check('cliente', 'El campo cliente debe ser numerico').isNumeric(),
+            check('estructura', 'La campo estructura es obligatorio').not().isEmpty(),
+            check('estructura', 'El campo estructura debe ser numerico').isNumeric()
+            ], 
+            validarCampos, 
+            getServiciosRondines);
 
 router.get('/ordenestr/:cliente/:estructura', 
             [
